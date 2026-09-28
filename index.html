@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>화마사(Hwamasa) | 화술 마스터 사회성 언어 튜터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Gamja+Flower&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: #F0F4F8;
+      --card-bg: #FFFFFF;
+      --brand-primary: #4F46E5;
+      --brand-secondary: #06B6D4;
+      --accent-warm: #F59E0B;
+      --accent-green: #10B981;
+      --accent-pink: #EC4899;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 24px rgba(79, 70, 229, 0.12);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER & NAVIGATION */
+    header {
+      background: linear-gradient(135deg, #4338CA, #6366F1);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(67, 56, 202, 0.2);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      width: 44px;
+      height: 44px;
+      background: white;
+      color: #4338CA;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .logo-title h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .logo-title p {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    .level-badge-container {
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      max-width: 900px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 0 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* LEVEL ROADMAP SCROLLER */
+    .roadmap-section {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .roadmap-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .levels-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .level-chip {
+      flex: 0 0 auto;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: #F1F5F9;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .level-chip:hover {
+      background: #E2E8F0;
+    }
+
+    .level-chip.active {
+      background: #EEF2FF;
+      color: var(--brand-primary);
+      border-color: var(--brand-primary);
+      font-weight: 800;
+    }
+
+    .level-chip.completed {
+      background: #ECFDF5;
+      color: var(--accent-green);
+      border-color: #A7F3D0;
+    }
+
+    /* TUTOR & SCENARIO CARD */
+    .tutor-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      position: relative;
+      border: 2px solid #E0E7FF;
+    }
+
+    @media (max-width: 640px) {
+      .tutor-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .tutor-avatar {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #818CF8, #C084FC);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      box-shadow: 0 8px 20px rgba(129, 140, 248, 0.4);
+      border: 4px solid white;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .tutor-avatar:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .cue-badge {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .dialog-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .speaker-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--brand-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .speech-bubble {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px 20px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #1E293B;
+      position: relative;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .non-verbal-text {
+      color: #D97706;
+      font-weight: 700;
+      background: #FFFBEB;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    /* ACTION & OPTIONS AREA */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: white;
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .option-btn:hover {
+      border-color: var(--brand-primary);
+      background: #F5F3FF;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+    }
+
+    .option-num {
+      width: 32px;
+      height: 32px;
+      background: #EEF2FF;
+      color: var(--brand-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .custom-input-box {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      border: 2px solid #E2E8F0;
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .custom-input-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    .submit-btn {
+      background: var(--brand-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      background: #4338CA;
+    }
+
+    /* FEEDBACK CARD */
+    .feedback-card {
+      background: #ECFDF5;
+      border: 2px solid #A7F3D0;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .praise-header {
+      color: #065F46;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alternatives-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .alt-item {
+      background: white;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #D1FAE5;
+      font-size: 0.95rem;
+      color: #047857;
+      font-weight: 600;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-repeat {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .btn-repeat:hover { background: #FDE68A; }
+
+    .btn-next {
+      background: var(--brand-primary);
+      color: white;
+    }
+    .btn-next:hover { background: #4338CA; }
+
+    /* TTS AUDIO CONTROL */
+    .tts-btn {
+      background: transparent;
+      border: none;
+      color: var(--brand-primary);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .tts-btn:hover {
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-area">
+      <div class="logo-badge">🌸</div>
+      <div class="logo-title">
+        <h1>화마사 (Hwamasa)</h1>
+        <p>화술 마스터 사회성 언어 튜터</p>
+      </div>
+    </div>
+    <div class="level-badge-container">
+      <span>현재 단계:</span>
+      <span id="headerLevelText" style="color: #FDE68A;">1단계 - 인사와 눈맞춤</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ROADMAP -->
+    <section class="roadmap-section">
+      <div class="roadmap-title">
+        <span>📋 10단계 사회적 소통 커리큘럼</span>
+        <span id="progressPercent">진행도 10%</span>
+      </div>
+      <div class="levels-scroll" id="levelChipContainer">
+        <!-- JS populated chips -->
+      </div>
+    </section>
+
+    <!-- TUTOR SCENARIO CONTAINER -->
+    <section class="tutor-card">
+      <div class="avatar-wrapper">
+        <div class="tutor-avatar" id="avatarEmoji">😊</div>
+        <div class="cue-badge" id="cueBadge">(다정한 눈맞춤)</div>
+      </div>
+      <div class="dialog-area">
+        <div class="speaker-name">
+          <span>화마사 선생님</span>
+          <button class="tts-btn" id="ttsBtn" title="음성으로 듣기">🔊</button>
+        </div>
+        <div class="speech-bubble" id="speechBubble">
+          <span class="non-verbal-text" id="nonVerbalSpan">(반갑게 웃으며 눈을 맞추고)</span><br>
+          안녕하세요! 나는 여러분의 사회적 대화 친구 <strong>화마사</strong>예요.<br><br>
+          우리는 오늘부터 재미있고 유용한 대화 연습을 함께 할 거예요.<br>
+          첫 번째 단계는 <strong>[1단계: 인사와 눈맞춤]</strong>이에요!
+        </div>
+      </div>
+    </section>
+
+    <!-- RESPONSE OPTIONS / INPUT AREA -->
+    <section class="options-container" id="optionsContainer">
+      <!-- Options injected by JS -->
+    </section>
+
+    <!-- CUSTOM INPUT BOX -->
+    <div class="custom-input-box">
+      <input type="text" id="customInput" placeholder="직접 말하듯이 입력해보세요 (예: 안녕! 반가워)" onkeypress="if(event.key === 'Enter') handleCustomSubmit()">
+      <button class="submit-btn" onclick="handleCustomSubmit()">말하기</button>
+    </div>
+
+    <!-- FEEDBACK CONTAINER (Hidden by default) -->
+    <section class="feedback-card" id="feedbackCard" style="display: none;">
+      <div class="praise-header" id="praiseHeader">
+        ✨ 훌륭해요! 칭찬해요!
+      </div>
+      <div id="feedbackText" style="color: #064E3B; font-size: 0.95rem;">
+        시도한 것 자체가 정말 잘했어요!
+      </div>
+      <div class="alternatives-list" id="alternativesList">
+        <!-- Alternative scripts injected here -->
+      </div>
+      <div class="controls-row">
+        <button class="action-btn btn-repeat" onclick="repeatCurrentLevel()">🔄 한 번 더 연습하기 (반복)</button>
+        <button class="action-btn btn-next" onclick="advanceNextLevel()">🚀 다음 단계로 이동하기</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 10-LEVEL CURRICULUM DATA SETUP
+    const CURRICULUM = [
+      {
+        level: 1,
+        title: "인사와 눈맞춤",
+        focus: "상대방을 바라보며 간단한 인사 주고받기",
+        emoji: "😊",
+        cue: "(따뜻한 미소로 눈맞춤)",
+        scenario: "길을 가다가 학교 친구 민우를 만났어요. 민우가 손을 흔들며 \"안녕!\" 하고 인사해요. 민우를 바라보며 어떻게 반응할까요?",
+        options: [
+          "(다정하게 눈을 맞추며) 안녕! 만나서 반가워!",
+          "(고개를 끄덕이며) 응, 안녕!",
+          "(쑥스럽지만 미소지으며) 안녕 민우야!"
+        ],
+        praise: "우와! 상대방을 바라보고 인사를 나누려는 마음이 정말 훌륭해요! 👏",
+        alternatives: [
+          "💡 추천 표현 1: \"(눈을 맞추며) 안녕, 민우야!\"",
+          "💡 추천 표현 2: \"(손을 흔들며) 안녕! 오랜만이야!\"",
+          "💡 추천 표현 3: \"(웃으며) 안녕, 반가워!\""
+        ]
+      },
+      {
+        level: 2,
+        title: "나의 기분과 감정 표현하기",
+        focus: "기쁨, 슬픔, 불편함 등 기분을 명확하게 말하기",
+        emoji: "😃",
+        cue: "(경청하는 표정으로)",
+        scenario: "오늘 미술 시간에 예쁜 그림을 잘 완성해서 기분이 정말 좋아요. 선생님이 \"오늘 느낌이 어떠니?\" 하고 물어보시네요.",
+        options: [
+          "(기쁜 표정으로) 오늘 그림이 잘 나와서 정말 기분 좋아요!",
+          "(웃으면서) 뿌듯하고 신나요!",
+          "(쑥스럽게) 기분 좋아요."
+        ],
+        praise: "자신의 기분을 멋지게 표현해주었어요! 칭찬해요! 👍",
+        alternatives: [
+          "💡 추천 표현 1: \"(미소를 지으며) 그림 완성해서 뿌듯해요!\"",
+          "💡 추천 표현 2: \"(밝은 목소리로) 정말 기분 최고예요!\"",
+          "💡 추천 표현 3: \"(손가락 엄지 척하며) 신나요!\""
+        ]
+      },
+      {
+        level: 3,
+        title: "도움 요청하기 & 부탁하기",
+        focus: "~해 주세요, 도와주세요를 사용하여 예의 바르게 요청하기",
+        emoji: "🤝",
+        cue: "(도와주고 싶은 따뜻한 표정)",
+        scenario: "높은 선반 위에 있는 물건이 손에 닿지 않아요. 옆에 계신 선생님께 어떻게 부탁드릴까요?",
+        options: [
+          "(선생님을 바라보며) 선생님, 이것 좀 꺼내주실 수 있나요?",
+          "(손을 가리키며) 선생님, 도와주세요!",
+          "(정중하게) 부탁드려요, 손이 안 닿아요."
+        ],
+        praise: "도움이 필요할 때 예의바르게 말하는 모습이 아주 훌륭해요! ✨",
+        alternatives: [
+          "💡 추천 표현 1: \"(정중하게) 선생님, 도움이 필요해요.\"",
+          "💡 추천 표현 2: \"(선생님을 바라보며) 이것 좀 도와주세요, 감사해요!\"",
+          "💡 추천 표현 3: \"(미소 지으며) 높아서 안 닿는데 부탁드려도 될까요?\""
+        ]
+      },
+      {
+        level: 4,
+        title: "고마움과 사과 표현하기",
+        focus: "알맞은 때에 고마워, 미안해 말하기",
+        emoji: "💖",
+        cue: "(진심 어린 따뜻한 목소리로)",
+        scenario: "실수로 친구의 지우개를 바닥에 떨어뜨렸어요. 친구가 지우개를 주워들었어요. 친구에게 어떻게 말할까요?",
+        options: [
+          "(미안한 표정으로) 미안해, 실수로 떨어뜨렸어. 괜찮아?",
+          "(진심을 담아) 앗, 지우개 떨어뜨려서 미안해!",
+          "(고개를 숙이며) 내가 실수했어, 미안해!"
+        ],
+        praise: "자신의 실수를 인정하고 솔직하게 사과하는 자세가 참 멋져요! 👏",
+        alternatives: [
+          "💡 추천 표현 1: \"(미안해하며) 떨어뜨려서 미안해, 다음엔 주의할게.\"",
+          "💡 추천 표현 2: \"(친구를 보며) 실수해서 미안해, 고마워!\"",
+          "💡 추천 표현 3: \"(다정하게) 미안해, 지우개 멀쩡하니?\""
+        ]
+      },
+      {
+        level: 5,
+        title: "대화 시작하기 & 같이 놀자고 하기",
+        focus: "다가가서 '같이 하자', '같이 놀자' 표현하기",
+        emoji: "⚽",
+        cue: "(반갑게 손을 내밀며)",
+        scenario: "운동장에서 친구들이 재미있게 보드게임을 하고 있어요. 나도 함께 놀고 싶어요. 친구들에게 어떻게 말할까요?",
+        options: [
+          "(친구들을 바라보며 밝게) 나도 같이 해도 될까?",
+          "(미소 지으며) 나도 보드게임 같이 하고 싶어!",
+          "(손을 들며) 얘들아, 나도 껴줄 수 있어?"
+        ],
+        praise: "용기 있게 다가가서 함께 놀자고 청하는 모습이 대단해요! 🎉",
+        alternatives: [
+          "💡 추천 표현 1: \"(웃으며) 나도 같이 놀면 더 재미있을 것 같아!\"",
+          "💡 추천 표현 2: \"(자리를 가리키며) 같이 해도 괜찮니?\"",
+          "💡 추천 표현 3: \"(밝은 목소리로) 나도 들어갈래!\""
+        ]
+      },
+      {
+        level: 6,
+        title: "순서 지키며 대화 주고받기",
+        focus: "상대방 말이 끝날 때까지 기다리고 고개 끄덕이기",
+        emoji: "👂",
+        cue: "(귀 기울여 들으며)",
+        scenario: "친구 지훈이가 주말에 다녀온 놀이공원 이야기를 신나서 막 설명하고 있어요. 어떻게 반응하면 좋을까요?",
+        options: [
+          "(고개를 끄덕이며) 와, 정말 재미있었겠다! 그래서 어떻게 됐어?",
+          "(눈을 바라보며 listening) 그렇구나! 대단해!",
+          "(이야기를 다 듣고) 와! 나도 가보고 싶다."
+        ],
+        praise: "끝까지 잘 들어주고 맞장구쳐주는 당신은 최고로 멋진 리스너예요! 🎧",
+        alternatives: [
+          "💡 추천 표현 1: \"(고개 끄덕이며) 정말? 신났겠네!\"",
+          "💡 추천 표현 2: \"(끝까지 들은 후) 와, 그래서 다음엔 어떻게 했어?\"",
+          "💡 추천 표현 3: \"(웃으며) 우와, 좋은 추억이네!\""
+        ]
+      },
+      {
+        level: 7,
+        title: "거절하기 & 거절 받아들이기",
+        focus: "부드럽게 거절하고, 타인의 거절에 '그래, 다음에 하자' 말하기",
+        emoji: "🛑",
+        cue: "(차분하고 다정한 표정)",
+        scenario: "지금 숙제를 하느라 바쁜데 친구가 지금 당장 놀이터에 가자고 해요. 어떻게 부드럽게 거절할까요?",
+        options: [
+          "(다정한 목소리로) 미안해, 지금은 숙제해야 해서 어려워. 다음에 같이 가자!",
+          "(미안한 표정으로) 지금은 좀 바빠서 나중에 가도 될까?",
+          "(웃으며) 마음은 고마운데, 오늘은 숙제 마쳐야 해!"
+        ],
+        praise: "상대방 기분이 상하지 않게 부드럽게 거절 표현을 아주 잘했어요! 🌟",
+        alternatives: [
+          "💡 추천 표현 1: \"(다정하게) 미안해, 오늘은 어려워. 내일은 어때?\"",
+          "💡 추천 표현 2: \"(고개를 숙이며) 나도 가고 싶은데 숙제가 남았어, 다음에 가자!\"",
+          "💡 추천 표현 3: \"(웃으며) 제안해줘서 고마워, 다음엔 꼭 가자!\""
+        ]
+      },
+      {
+        level: 8,
+        title: "칭찬 주고받기",
+        focus: "상대방 칭찬하고, 칭찬받았을 때 '고마워' 응답하기",
+        emoji: "🌟",
+        cue: "(밝은 칭찬의 눈빛)",
+        scenario: "친구가 나에게 \"와, 너 오늘 옷 진짜 잘 어울린다! 멋져!\" 하고 칭찬해 주었어요. 어떻게 대답할까요?",
+        options: [
+          "(기분 좋게 웃으며) 고마워! 네가 그렇게 말해주니 기쁘다!",
+          "(미소 지으며) 진짜? 고마워!",
+          "(손을 흔들며) 칭찬해줘서 고마워, 너도 오늘 멋져!"
+        ],
+        praise: "칭찬을 기분 좋게 받아들이고 감사 인사를 잘 전했어요! 💖",
+        alternatives: [
+          "💡 추천 표현 1: \"(웃으며) 고마워, 덕분에 기분이 좋아졌어!\"",
+          "💡 추천 표현 2: \"(쑥스러워하며 미소) 헤헤 고마워!\"",
+          "💡 추천 표현 3: \"(다정하게) 너도 오늘 옷 정말 예뻐! 고마워!\""
+        ]
+      },
+      {
+        level: 9,
+        title: "상대방 기분과 마음 알아채기",
+        focus: "맥락과 표정을 보고 상대방의 속마음 이해하기",
+        emoji: "🔍",
+        cue: "(관찰하는 깊은 눈빛)",
+        scenario: "친구가 시험 성적표를 보고 시무룩하게 어깨를 늘어뜨리고 한숨을 쉬고 있어요. 친구의 마음은 어떨까요? 뭐라고 말해줄까요?",
+        options: [
+          "(걱정스러운 표정으로) 많이 아쉽지? 힘내, 다음엔 잘할 수 있을 거야!",
+          "(다정하게 곁에 다가가) 무슨 일 있어? 괜찮아?",
+          "(어깨를 토닥이며) 실망하지 마, 내가 도와줄게!"
+        ],
+        praise: "상대방의 마음을 잘 헤아리고 위로하는 따뜻한 마음이 돋보여요! 🕊️",
+        alternatives: [
+          "💡 추천 표현 1: \"(어깨를 가볍게 토닥이며) 괜찮아, 힘내!\"",
+          "💡 추천 표현 2: \"(다정한 목소리로) 마음이 속상하겠구나.\"",
+          "💡 추천 표현 3: \"(옆에 앉으며) 맛있는 것 먹고 기분 풀자!\""
+        ]
+      },
+      {
+        level: 10,
+        title: "지역사회 실전 대화하기",
+        focus: "식당 주문, 물건 구매 등 실생활 역할극 완성",
+        emoji: "🏪",
+        cue: "(자신감 넘치는 미소)",
+        scenario: "편의점에서 음료수를 사고 계산대에 갔어요. 점원 아저씨가 \"2,000원입니다\" 하고 말합니다. 어떻게 대화할까요?",
+        options: [
+          "(돈을 건네며 정중하게) 여기 2,000원 있습니다. 감사합니다!",
+          "(미소 지으며) 여기요, 안녕히 계세요!",
+          "(계산 후) 수고하세요, 감사합니다!"
+        ],
+        praise: "축하해요! 실생활 지역사회 소통 미션을 완벽히 성공했습니다! 🎉🏆",
+        alternatives: [
+          "💡 추천 표현 1: \"(영수증을 받으며) 감사해요! 수고하세요!\"",
+          "💡 추천 표현 2: \"(공손하게 두 손으로) 여기 있습니다!\"",
+          "💡 추천 표현 3: \"(밝게) 감사합니다, 좋은 하루 되세요!\""
+        ]
+      }
+    ];
+
+    let currentLevelIdx = 0; // 0-based index for Level 1 to 10
+
+    // DOM ELEMENTS
+    const headerLevelText = document.getElementById('headerLevelText');
+    const progressPercent = document.getElementById('progressPercent');
+    const levelChipContainer = document.getElementById('levelChipContainer');
+    const avatarEmoji = document.getElementById('avatarEmoji');
+    const cueBadge = document.getElementById('cueBadge');
+    const speechBubble = document.getElementById('speechBubble');
+    const nonVerbalSpan = document.getElementById('nonVerbalSpan');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedbackCard = document.getElementById('feedbackCard');
+    const praiseHeader = document.getElementById('praiseHeader');
+    const feedbackText = document.getElementById('feedbackText');
+    const alternativesList = document.getElementById('alternativesList');
+    const ttsBtn = document.getElementById('ttsBtn');
+
+    // INIT APP
+    function initApp() {
+      renderRoadmapChips();
+      loadLevel(currentLevelIdx);
+
+      ttsBtn.addEventListener('click', () => {
+        const data = CURRICULUM[currentLevelIdx];
+        speakText(`화마사 선생님. ${data.cue}. ${data.scenario}`);
+      });
+    }
+
+    // RENDER ROADMAP CHIPS
+    function renderRoadmapChips() {
+      levelChipContainer.innerHTML = '';
+      CURRICULUM.forEach((item, idx) => {
+        const chip = document.createElement('div');
+        chip.className = `level-chip ${idx === currentLevelIdx ? 'active' : ''}`;
+        chip.innerHTML = `<span>${item.level}단계</span> <span>${item.title}</span>`;
+        chip.onclick = () => {
+          currentLevelIdx = idx;
+          renderRoadmapChips();
+          loadLevel(currentLevelIdx);
+        };
+        levelChipContainer.appendChild(chip);
+      });
+
+      const pct = Math.round(((currentLevelIdx + 1) / CURRICULUM.length) * 100);
+      progressPercent.textContent = `진행도 ${pct}%`;
+    }
+
+    // LOAD SPECIFIC LEVEL
+    function loadLevel(idx) {
+      const data = CURRICULUM[idx];
+
+      headerLevelText.textContent = `${data.level}단계 - ${data.title}`;
+      avatarEmoji.textContent = data.emoji;
+      cueBadge.textContent = data.cue;
+      nonVerbalSpan.textContent = data.cue;
+
+      speechBubble.innerHTML = `
+        <span class="non-verbal-text">${data.cue}</span><br>
+        <strong>[${data.level}단계: ${data.title}]</strong><br><br>
+        ${data.scenario}
+      `;
+
+      // Render Options
+      optionsContainer.innerHTML = '';
+      data.options.forEach((optText, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `
+          <div class="option-num">${oIdx + 1}</div>
+          <div>${optText}</div>
+        `;
+        btn.onclick = () => handleSelectOption(optText);
+        optionsContainer.appendChild(btn);
+      });
+
+      feedbackCard.style.display = 'none';
+      document.getElementById('customInput').value = '';
+    }
+
+    // HANDLE USER SELECTION
+    function handleSelectOption(selectedText) {
+      showFeedback(selectedText);
+    }
+
+    function handleCustomSubmit() {
+      const input = document.getElementById('customInput');
+      if (!input.value.trim()) return;
+      showFeedback(input.value.trim());
+    }
+
+    // SHOW FEEDBACK & REINFORCEMENT
+    function showFeedback(userSpeech) {
+      const data = CURRICULUM[currentLevelIdx];
+
+      feedbackCard.style.display = 'flex';
+      praiseHeader.innerHTML = `✨ 훌륭해요! "${userSpeech}"라고 멋지게 시도했군요!`;
+      feedbackText.textContent = data.praise;
+
+      alternativesList.innerHTML = '<strong style="color:#065F46; font-size:0.9rem;">📌 이렇게 표현해보는 것도 추천해요:</strong>';
+      data.alternatives.forEach(alt => {
+        const item = document.createElement('div');
+        item.className = 'alt-item';
+        item.textContent = alt;
+        alternativesList.appendChild(item);
+      });
+
+      feedbackCard.scrollIntoView({ behavior: 'smooth' });
+      speakText(`훌륭해요! ${data.praise}`);
+    }
+
+    // REPEAT / ADVANCE
+    function repeatCurrentLevel() {
+      loadLevel(currentLevelIdx);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function advanceNextLevel() {
+      if (currentLevelIdx < CURRICULUM.length - 1) {
+        currentLevelIdx++;
+        renderRoadmapChips();
+        loadLevel(currentLevelIdx);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        alert("🎉 축하합니다! 10단계 모든 커리큘럼을 완료했습니다! 대단해요!");
+      }
+    }
+
+    // TEXT TO SPEECH (KOREAN)
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const cleanText = text.replace(/\(.*?\)/g, ''); // Remove visual cues in audio if needed
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'ko-KR';
+        utterance.rate = 0.9; // Slower pace for clarity
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Start App on Load
+    window.onload = initApp;
+  </script>
+</body>
+</html>
